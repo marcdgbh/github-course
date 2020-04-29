@@ -1,2 +1,0 @@
-[tool.dependencychecker]
-Zope2 = ['App', 'OFS', 'Products.Five']

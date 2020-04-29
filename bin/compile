@@ -12,9 +12,9 @@ CACHE_DIR=$2  # -> use this dir for caching between compiles
 ENV_DIR=$3  # -> environment variables are stored as files inside here
 INSTALL_DIR="$BUILD_DIR/.heroku/vendor/buildout"  # -> after buildout is
 # finished, copy results to this dir so they get compressed into a Heroku slug
-UI_URL=https://launchpad.net/plone/4.3/4.3.3/+download/Plone-4.3.3-UnifiedInstaller.tgz
-UI_TARBALL=Plone-4.3.3-UnifiedInstaller.tgz
-UI_DIR=Plone-4.3.3-UnifiedInstaller
+UI_URL=https://launchpad.net/plone/5.1/5.1.6/+download/Plone-5.1.6-UnifiedInstaller.tgz
+UI_TARBALL=Plone-5.1.6-UnifiedInstaller.tgz
+UI_DIR=Plone-5.1.6-UnifiedInstaller
 
 
 # make sure dirs exist
@@ -68,16 +68,14 @@ if [ -f $ENV_DIR/BOOTSTRAP_PY_URL ]; then
     export "BOOTSTRAP_PY_URL=$(cat $ENV_DIR/BOOTSTRAP_PY_URL)"
     echo "Use custom bootstrap.py: ${BOOTSTRAP_PY_URL}" | indent
 else
-    export "BOOTSTRAP_PY_URL=https://bootstrap.pypa.io/bootstrap-buildout.py"
+    export "BOOTSTRAP_PY_URL=http://downloads.buildout.org/2/bootstrap.py"
     echo "Use default bootstrap.py: ${BOOTSTRAP_PY_URL}" | indent
 fi
 
 cd $BUILD_DIR
 echo "-----> Bootstrap buildout"
-wget -O bootstrap.py "${BOOTSTRAP_PY_URL}"
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python get-pip.py --no-setuptools
-pip install zc.buildout==2.5.3 setuptools==27.3.0
+curl -o bootstrap.py -L "${BOOTSTRAP_PY_URL}"
+python bootstrap.py -c $BUILDOUT_CFG
 echo "-----> Run bin/buildout -c ${BUILDOUT_CFG} ${BUILDOUT_VERBOSITY}"
 bin/buildout -c $BUILDOUT_CFG $BUILDOUT_VERBOSITY
 
