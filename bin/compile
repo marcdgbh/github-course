@@ -76,7 +76,7 @@ cd $BUILD_DIR
 echo "-----> Bootstrap buildout"
 wget -O bootstrap.py "${BOOTSTRAP_PY_URL}"
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python get-pip.py -no-setuptools
+python get-pip.py --no-setuptools
 pip install zc.buildout==2.5.3 setuptools==27.3.0
 echo "-----> Run bin/buildout -c ${BUILDOUT_CFG} ${BUILDOUT_VERBOSITY}"
 bin/buildout -c $BUILDOUT_CFG $BUILDOUT_VERBOSITY
